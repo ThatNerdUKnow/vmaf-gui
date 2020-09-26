@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
 
 namespace vmaf_gui
 {
@@ -61,7 +62,7 @@ namespace vmaf_gui
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            cmbResolution.Text = "1920 1080";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -70,6 +71,9 @@ namespace vmaf_gui
             {
                 originalFileDialog.OpenFile();
                 compressedFileDialog.OpenFile();
+
+                originalFileDialog.Dispose();
+                compressedFileDialog.Dispose();
 
                 string sourcePath ="\""+ originalFileDialog.FileName + "\"";
                 string compressedPath = "\"" + compressedFileDialog.FileName + "\"";
@@ -113,7 +117,22 @@ namespace vmaf_gui
 
         void vmaf()
         {
-            ChildProcess("vmaf.exe", "yuv420p 1920 1080 ./temp/source.yuv ./temp/compressed.yuv ./model/vmaf_v0.6.1.pkl --log log.txt");
+            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv ./model/vmaf_v0.6.1.pkl --log log.xml";
+            if (chkPSNR.Checked)
+            {
+                args += " --psnr";
+            }
+            if (chkSSIM.Checked)
+            {
+                args += " --ssim";
+            }
+            ChildProcess("vmaf.exe",args );
+            ChildProcess("notepad", "log.xml");
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

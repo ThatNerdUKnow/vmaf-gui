@@ -37,6 +37,11 @@
             this.vmafLogo = new System.Windows.Forms.PictureBox();
             this.grpFiles = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.chkPSNR = new System.Windows.Forms.CheckBox();
+            this.chkSSIM = new System.Windows.Forms.CheckBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.cmbResolution = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.vmafLogo)).BeginInit();
             this.grpFiles.SuspendLayout();
             this.SuspendLayout();
@@ -79,7 +84,6 @@
             this.lblSource.Size = new System.Drawing.Size(99, 13);
             this.lblSource.TabIndex = 2;
             this.lblSource.Text = "No source selected";
-//            this.lblSource.Click += new System.EventHandler(this.lblSource_Click);
             // 
             // lblCompressed
             // 
@@ -89,13 +93,12 @@
             this.lblCompressed.Size = new System.Drawing.Size(80, 13);
             this.lblCompressed.TabIndex = 3;
             this.lblCompressed.Text = "No file selected";
-//            this.lblCompressed.Click += new System.EventHandler(this.lblCompressed_Click);
             // 
             // vmafLogo
             // 
             this.vmafLogo.BackgroundImage = global::vmaf_gui.Properties.Resources.vmaf_logo;
             this.vmafLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.vmafLogo.Location = new System.Drawing.Point(34, 12);
+            this.vmafLogo.Location = new System.Drawing.Point(72, 12);
             this.vmafLogo.Name = "vmafLogo";
             this.vmafLogo.Size = new System.Drawing.Size(160, 131);
             this.vmafLogo.TabIndex = 4;
@@ -109,29 +112,77 @@
             this.grpFiles.Controls.Add(this.lblSource);
             this.grpFiles.Location = new System.Drawing.Point(12, 149);
             this.grpFiles.Name = "grpFiles";
-            this.grpFiles.Size = new System.Drawing.Size(191, 112);
+            this.grpFiles.Size = new System.Drawing.Size(272, 112);
             this.grpFiles.TabIndex = 5;
             this.grpFiles.TabStop = false;
             this.grpFiles.Text = "Select video files";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 267);
+            this.button1.Location = new System.Drawing.Point(12, 317);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(191, 23);
+            this.button1.Size = new System.Drawing.Size(272, 23);
             this.button1.TabIndex = 6;
             this.button1.Text = "Get VMAF score";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // chkPSNR
+            // 
+            this.chkPSNR.AutoSize = true;
+            this.chkPSNR.Location = new System.Drawing.Point(12, 294);
+            this.chkPSNR.Name = "chkPSNR";
+            this.chkPSNR.Size = new System.Drawing.Size(78, 17);
+            this.chkPSNR.TabIndex = 7;
+            this.chkPSNR.Text = "Use PSNR";
+            this.chkPSNR.UseVisualStyleBackColor = true;
+            // 
+            // chkSSIM
+            // 
+            this.chkSSIM.AutoSize = true;
+            this.chkSSIM.Location = new System.Drawing.Point(96, 294);
+            this.chkSSIM.Name = "chkSSIM";
+            this.chkSSIM.Size = new System.Drawing.Size(74, 17);
+            this.chkSSIM.TabIndex = 8;
+            this.chkSSIM.Text = "Use SSIM";
+            this.chkSSIM.UseVisualStyleBackColor = true;
+            // 
+            // cmbResolution
+            // 
+            this.cmbResolution.FormattingEnabled = true;
+            this.cmbResolution.Items.AddRange(new object[] {
+            "1280 720",
+            "1920 1080",
+            "3840 2160"});
+            this.cmbResolution.Location = new System.Drawing.Point(107, 267);
+            this.cmbResolution.Name = "cmbResolution";
+            this.cmbResolution.Size = new System.Drawing.Size(177, 21);
+            this.cmbResolution.TabIndex = 9;
+            this.cmbResolution.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 270);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "VMAF Resolution:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 511);
+            this.ClientSize = new System.Drawing.Size(306, 365);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmbResolution);
+            this.Controls.Add(this.chkSSIM);
+            this.Controls.Add(this.chkPSNR);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.grpFiles);
             this.Controls.Add(this.vmafLogo);
+            this.MaximumSize = new System.Drawing.Size(322, 404);
+            this.MinimumSize = new System.Drawing.Size(322, 404);
             this.Name = "Form1";
             this.Text = "VMAF-GUI";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -139,6 +190,7 @@
             this.grpFiles.ResumeLayout(false);
             this.grpFiles.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -153,6 +205,11 @@
         private System.Windows.Forms.PictureBox vmafLogo;
         private System.Windows.Forms.GroupBox grpFiles;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox chkPSNR;
+        private System.Windows.Forms.CheckBox chkSSIM;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ComboBox cmbResolution;
+        private System.Windows.Forms.Label label1;
     }
 }
 
