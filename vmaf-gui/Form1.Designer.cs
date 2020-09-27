@@ -158,7 +158,7 @@
             this.cmbResolution.Name = "cmbResolution";
             this.cmbResolution.Size = new System.Drawing.Size(177, 21);
             this.cmbResolution.TabIndex = 9;
-            this.cmbResolution.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+//            this.cmbResolution.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -173,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(306, 365);
+            this.ClientSize = new System.Drawing.Size(298, 358);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbResolution);
             this.Controls.Add(this.chkSSIM);
@@ -181,8 +181,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.grpFiles);
             this.Controls.Add(this.vmafLogo);
-            this.MaximumSize = new System.Drawing.Size(322, 404);
-            this.MinimumSize = new System.Drawing.Size(322, 404);
+            this.MaximumSize = new System.Drawing.Size(314, 397);
+            this.MinimumSize = new System.Drawing.Size(314, 397);
             this.Name = "Form1";
             this.Text = "VMAF-GUI";
             this.Load += new System.EventHandler(this.Form1_Load);

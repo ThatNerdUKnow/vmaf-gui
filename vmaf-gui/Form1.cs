@@ -20,21 +20,37 @@ namespace vmaf_gui
             InitializeComponent();
         }
 
-        string ChildProcess(string program_name, string args)
+        
+        string ChildProcess(string program_name, string args, bool show)
         {
+
+            
             // Spawn a child process, record stdout and return it
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.CreateNoWindow = !show;
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
 
             p.Start();
 
             // p.standardoutput is an input stream
-            string output = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
+            //string output = p.StandardOutput.ReadToEnd();
+            string output = "";
+            string line;
 
+            
+            while ((line = p.StandardOutput.ReadLine()) != null)
+            {
+                output += line;
+                
+            }
+            //rtbConsole.Text += output;
+
+       
+            p.WaitForExit();
+            
             return output;
         }
 
@@ -67,6 +83,7 @@ namespace vmaf_gui
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             try
             {
                 originalFileDialog.OpenFile();
@@ -87,7 +104,9 @@ namespace vmaf_gui
                         Directory.CreateDirectory("temp");
                     }
 
+                    
                     decompressVideo(sourcePath,"./temp/source.yuv");
+                   
                     decompressVideo(compressedPath,"./temp/compressed.yuv");
 
                     vmaf();
@@ -107,7 +126,7 @@ namespace vmaf_gui
         {
             try
             {
-                ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 "+ output);
+                ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 "+ output,false);
             }
             catch (Exception err)
             {
@@ -126,8 +145,11 @@ namespace vmaf_gui
             {
                 args += " --ssim";
             }
-            ChildProcess("vmaf.exe",args );
-            ChildProcess("notepad", "log.xml");
+            ChildProcess("vmaf.exe",args ,false);
+
+            
+            ChildProcess("notepad", "log.xml",true);
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
