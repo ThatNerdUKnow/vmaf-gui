@@ -29,6 +29,7 @@ namespace vmaf_gui
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
             p.StartInfo.CreateNoWindow = !show;
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
@@ -39,7 +40,7 @@ namespace vmaf_gui
             // p.standardoutput is an input stream
             //string output = p.StandardOutput.ReadToEnd();
             string output = "";
-            string line;
+            
 
             /*
             while ((line = p.StandardOutput.ReadLine()) != null)
@@ -52,7 +53,8 @@ namespace vmaf_gui
             
             while (!p.HasExited)
             {
-                Console.WriteLine(p.StandardOutput.ReadToEnd());
+                rtbConsole.Text += "\n\n" + program_name + " " + args + "\n";
+                rtbConsole.Text += p.StandardOutput.ReadToEnd();
                 prgProgress.PerformStep();
                 System.Windows.Forms.Application.DoEvents();
 
@@ -88,7 +90,7 @@ namespace vmaf_gui
         {
             cmbResolution.SelectedIndex = 1;
             
-            string[] models = Directory.GetFiles("./model");
+            string[] models = Directory.GetFiles(".\\model");
             foreach (string model in models)
             {
                 string safeName = model.Substring(8, model.Length - 8);
@@ -132,8 +134,8 @@ namespace vmaf_gui
                     vmaf();
 
                     lblProgress.Text = "";
-                    File.Delete("./temp/compressed.yuv");
-                    File.Delete("./temp/source.yuv");
+                   // File.Delete("./temp/compressed.yuv");
+                   // File.Delete("./temp/source.yuv");
                 }
                 catch (Exception err)
                 {
@@ -160,7 +162,7 @@ namespace vmaf_gui
 
         void vmaf()
         {
-            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv ./model/"+ cmbModel.Text +" --log log.xml";
+            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ cmbModel.Text +" --log log.xml";
             if (chkPSNR.Checked)
             {
                 args += " --psnr";
@@ -179,7 +181,7 @@ namespace vmaf_gui
             
         }
 
-       
+        
     }
 
    
