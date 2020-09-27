@@ -132,6 +132,8 @@ namespace vmaf_gui
                     vmaf();
 
                     lblProgress.Text = "";
+                    File.Delete("./temp/compressed.yuv");
+                    File.Delete("./temp/source.yuv");
                 }
                 catch (Exception err)
                 {
