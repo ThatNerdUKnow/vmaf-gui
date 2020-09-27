@@ -87,6 +87,13 @@ namespace vmaf_gui
         private void Form1_Load(object sender, EventArgs e)
         {
             cmbResolution.SelectedIndex = 1;
+            
+            string[] models = Directory.GetFiles("./model");
+            foreach (string model in models)
+            {
+                string safeName = model.Substring(8, model.Length - 8);
+                cmbModel.Items.Add(safeName);
+            }
             cmbModel.SelectedIndex = 0;
         }
 
