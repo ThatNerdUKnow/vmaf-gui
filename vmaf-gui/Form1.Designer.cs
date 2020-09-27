@@ -46,7 +46,6 @@
             this.lblProgress = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbModel = new System.Windows.Forms.ComboBox();
-            this.rtbConsole = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.vmafLogo)).BeginInit();
             this.grpFiles.SuspendLayout();
             this.SuspendLayout();
@@ -152,10 +151,6 @@
             this.chkSSIM.Text = "Use SSIM";
             this.chkSSIM.UseVisualStyleBackColor = true;
             // 
-            // backgroundWorker1
-            // 
-//            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
             // cmbResolution
             // 
             this.cmbResolution.FormattingEnabled = true;
@@ -211,23 +206,12 @@
             this.cmbModel.Size = new System.Drawing.Size(177, 21);
             this.cmbModel.TabIndex = 13;
             // 
-            // rtbConsole
-            // 
-            this.rtbConsole.BackColor = System.Drawing.SystemColors.MenuText;
-            this.rtbConsole.ForeColor = System.Drawing.SystemColors.Window;
-            this.rtbConsole.Location = new System.Drawing.Point(291, 12);
-            this.rtbConsole.Name = "rtbConsole";
-            this.rtbConsole.Size = new System.Drawing.Size(340, 387);
-            this.rtbConsole.TabIndex = 15;
-            this.rtbConsole.Text = "";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(651, 420);
-            this.Controls.Add(this.rtbConsole);
+            this.ClientSize = new System.Drawing.Size(305, 420);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmbModel);
             this.Controls.Add(this.lblProgress);
@@ -239,8 +223,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.grpFiles);
             this.Controls.Add(this.vmafLogo);
-            this.MaximumSize = new System.Drawing.Size(667, 459);
-            this.MinimumSize = new System.Drawing.Size(667, 459);
+            this.MaximumSize = new System.Drawing.Size(321, 459);
+            this.MinimumSize = new System.Drawing.Size(321, 459);
             this.Name = "Form1";
             this.Text = "VMAF-GUI";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -272,7 +256,6 @@
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbModel;
-        private System.Windows.Forms.RichTextBox rtbConsole;
     }
 }
 

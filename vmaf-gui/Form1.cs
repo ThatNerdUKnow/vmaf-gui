@@ -29,7 +29,6 @@ namespace vmaf_gui
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
             p.StartInfo.CreateNoWindow = !show;
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
@@ -40,7 +39,7 @@ namespace vmaf_gui
             // p.standardoutput is an input stream
             //string output = p.StandardOutput.ReadToEnd();
             string output = "";
-            
+
 
             /*
             while ((line = p.StandardOutput.ReadLine()) != null)
@@ -50,17 +49,12 @@ namespace vmaf_gui
             }*/
             //rtbConsole.Text += output;
 
-            
-            while (!p.HasExited)
-            {
-                rtbConsole.Text += "\n\n" + program_name + " " + args + "\n";
-                rtbConsole.Text += p.StandardOutput.ReadToEnd();
-                prgProgress.PerformStep();
-                System.Windows.Forms.Application.DoEvents();
 
-            }
-           // p.WaitForExit();
+            Console.WriteLine(program_name);
+            Console.WriteLine(args);
             
+            p.WaitForExit();
+            prgProgress.PerformStep();
             return output;
         }
 
