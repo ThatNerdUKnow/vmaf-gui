@@ -42,6 +42,10 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.cmbResolution = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.prgProgress = new System.Windows.Forms.ProgressBar();
+            this.lblProgress = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbModel = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.vmafLogo)).BeginInit();
             this.grpFiles.SuspendLayout();
             this.SuspendLayout();
@@ -119,7 +123,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 317);
+            this.button1.Location = new System.Drawing.Point(12, 347);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(272, 23);
             this.button1.TabIndex = 6;
@@ -130,7 +134,7 @@
             // chkPSNR
             // 
             this.chkPSNR.AutoSize = true;
-            this.chkPSNR.Location = new System.Drawing.Point(12, 294);
+            this.chkPSNR.Location = new System.Drawing.Point(12, 324);
             this.chkPSNR.Name = "chkPSNR";
             this.chkPSNR.Size = new System.Drawing.Size(78, 17);
             this.chkPSNR.TabIndex = 7;
@@ -140,7 +144,7 @@
             // chkSSIM
             // 
             this.chkSSIM.AutoSize = true;
-            this.chkSSIM.Location = new System.Drawing.Point(96, 294);
+            this.chkSSIM.Location = new System.Drawing.Point(96, 324);
             this.chkSSIM.Name = "chkSSIM";
             this.chkSSIM.Size = new System.Drawing.Size(74, 17);
             this.chkSSIM.TabIndex = 8;
@@ -158,7 +162,6 @@
             this.cmbResolution.Name = "cmbResolution";
             this.cmbResolution.Size = new System.Drawing.Size(177, 21);
             this.cmbResolution.TabIndex = 9;
-//            this.cmbResolution.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -169,11 +172,54 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "VMAF Resolution:";
             // 
+            // prgProgress
+            // 
+            this.prgProgress.Location = new System.Drawing.Point(12, 377);
+            this.prgProgress.Maximum = 4;
+            this.prgProgress.Name = "prgProgress";
+            this.prgProgress.Size = new System.Drawing.Size(272, 23);
+            this.prgProgress.Step = 1;
+            this.prgProgress.TabIndex = 11;
+            // 
+            // lblProgress
+            // 
+            this.lblProgress.AutoSize = true;
+            this.lblProgress.Location = new System.Drawing.Point(12, 403);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(0, 13);
+            this.lblProgress.TabIndex = 12;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 297);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "VMAF Model:";
+            // 
+            // cmbModel
+            // 
+            this.cmbModel.FormattingEnabled = true;
+            this.cmbModel.Items.AddRange(new object[] {
+            "vmaf_v0.6.1.pkl",
+            "vmaf_4k_v0.6.1.pkl",
+            "vmaf_v0.6.1neg.pkl"});
+            this.cmbModel.Location = new System.Drawing.Point(107, 294);
+            this.cmbModel.Name = "cmbModel";
+            this.cmbModel.Size = new System.Drawing.Size(177, 21);
+            this.cmbModel.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 358);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(301, 420);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmbModel);
+            this.Controls.Add(this.lblProgress);
+            this.Controls.Add(this.prgProgress);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbResolution);
             this.Controls.Add(this.chkSSIM);
@@ -181,8 +227,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.grpFiles);
             this.Controls.Add(this.vmafLogo);
-            this.MaximumSize = new System.Drawing.Size(314, 397);
-            this.MinimumSize = new System.Drawing.Size(314, 397);
+            this.MaximumSize = new System.Drawing.Size(317, 459);
+            this.MinimumSize = new System.Drawing.Size(317, 459);
             this.Name = "Form1";
             this.Text = "VMAF-GUI";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -210,6 +256,10 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ComboBox cmbResolution;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar prgProgress;
+        private System.Windows.Forms.Label lblProgress;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbModel;
     }
 }
 

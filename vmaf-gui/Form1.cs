@@ -35,21 +35,29 @@ namespace vmaf_gui
 
             p.Start();
 
+            
             // p.standardoutput is an input stream
             //string output = p.StandardOutput.ReadToEnd();
             string output = "";
             string line;
 
-            
+            /*
             while ((line = p.StandardOutput.ReadLine()) != null)
             {
                 output += line;
-                
-            }
+                Console.WriteLine(line);
+            }*/
             //rtbConsole.Text += output;
 
-       
-            p.WaitForExit();
+            
+            while (!p.HasExited)
+            {
+                Console.WriteLine(p.StandardOutput.ReadToEnd());
+                prgProgress.PerformStep();
+                System.Windows.Forms.Application.DoEvents();
+
+            }
+           // p.WaitForExit();
             
             return output;
         }
@@ -78,7 +86,8 @@ namespace vmaf_gui
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cmbResolution.Text = "1920 1080";
+            cmbResolution.SelectedIndex = 1;
+            cmbModel.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -104,12 +113,18 @@ namespace vmaf_gui
                         Directory.CreateDirectory("temp");
                     }
 
-                    
+                    lblProgress.Text = "Decompressing Source...";
+                    System.Windows.Forms.Application.DoEvents();
                     decompressVideo(sourcePath,"./temp/source.yuv");
-                   
+
+                    lblProgress.Text = "Decompressing Compressed...";
+                    System.Windows.Forms.Application.DoEvents();
                     decompressVideo(compressedPath,"./temp/compressed.yuv");
 
+                    
                     vmaf();
+
+                    lblProgress.Text = "";
                 }
                 catch (Exception err)
                 {
@@ -136,7 +151,7 @@ namespace vmaf_gui
 
         void vmaf()
         {
-            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv ./model/vmaf_v0.6.1.pkl --log log.xml";
+            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv ./model/"+ cmbModel.Text +" --log log.xml";
             if (chkPSNR.Checked)
             {
                 args += " --psnr";
@@ -145,17 +160,17 @@ namespace vmaf_gui
             {
                 args += " --ssim";
             }
+
+            lblProgress.Text = "Performing VMAF...";
+            System.Windows.Forms.Application.DoEvents();
             ChildProcess("vmaf.exe",args ,false);
 
-            
+            System.Windows.Forms.Application.DoEvents();
             ChildProcess("notepad", "log.xml",true);
             
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 
    
