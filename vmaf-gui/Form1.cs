@@ -94,9 +94,19 @@ namespace vmaf_gui
             foreach (string model in models)
             {
                 string safeName = model.Substring(8, model.Length - 8);
-                cmbModel.Items.Add(safeName);
+                if (!safeName.Contains(".model")&& safeName.Contains(".pkl"))
+                {
+                    cmbModel.Items.Add(safeName);
+                }
             }
-            cmbModel.SelectedIndex = 0;
+            try
+            {
+                cmbModel.SelectedIndex = 0;
+            }
+            catch
+            {
+                MessageBox.Show("There are no suitable models in the ./model folder");
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
