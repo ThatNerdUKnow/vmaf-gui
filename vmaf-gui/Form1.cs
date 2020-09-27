@@ -101,7 +101,7 @@ namespace vmaf_gui
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            prgProgress.Value = 0;
             try
             {
                 originalFileDialog.OpenFile();
