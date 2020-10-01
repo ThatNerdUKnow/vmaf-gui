@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
@@ -33,6 +33,7 @@ namespace vmaf_gui
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
 
+           
             p.Start();
 
             
@@ -54,7 +55,7 @@ namespace vmaf_gui
             Console.WriteLine(args);
             
             p.WaitForExit();
-            prgProgress.PerformStep();
+            //prgProgress.PerformStep();
             return output;
         }
 
@@ -106,8 +107,10 @@ namespace vmaf_gui
         private void button1_Click(object sender, EventArgs e)
         {
             prgProgress.Value = 0;
+            
             try
             {
+                
                 originalFileDialog.OpenFile();
                 compressedFileDialog.OpenFile();
 
@@ -121,25 +124,51 @@ namespace vmaf_gui
                 Console.WriteLine(compressedPath);
                 try
                 {
+                    button1.Enabled = false;
                     if (!Directory.Exists("temp"))
                     {
                         Directory.CreateDirectory("temp");
                     }
 
-                    lblProgress.Text = "Decompressing Source...";
-                    System.Windows.Forms.Application.DoEvents();
-                    decompressVideo(sourcePath,"./temp/source.yuv");
+                    string resolution = cmbResolution.Text;
+                    string model = cmbModel.Text;
+                    bool psnr = chkPSNR.Checked;
+                    bool ssim = chkSSIM.Checked;
 
-                    lblProgress.Text = "Decompressing Compressed...";
-                    System.Windows.Forms.Application.DoEvents();
-                    decompressVideo(compressedPath,"./temp/compressed.yuv");
+                    ThreadStart tStart = new ThreadStart(
+                        () => {
 
-                    
-                    vmaf();
+                            //lblProgress.Text = "Decompressing Source...";
+                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
+                            decompressVideo(sourcePath, "./temp/source.yuv");
+                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                    lblProgress.Text = "";
-                    File.Delete("./temp/compressed.yuv");
-                    File.Delete("./temp/source.yuv");
+                            //lblProgress.Text = "Decompressing Compressed...";
+                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Compressed..."; }));
+
+                            decompressVideo(compressedPath, "./temp/compressed.yuv");
+                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+
+
+                            vmaf(resolution, model, psnr, ssim);
+                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+
+                            ChildProcess("notepad", "log.xml", true);
+                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+
+                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
+                            File.Delete("./temp/compressed.yuv");
+                            File.Delete("./temp/source.yuv");
+
+                            button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
+
+                        }
+
+                        );
+
+
+                    Thread t = new Thread(tStart);
+                    t.Start();
                 }
                 catch (Exception err)
                 {
@@ -156,6 +185,7 @@ namespace vmaf_gui
         {
             try
             {
+                
                 ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 "+ output,false);
             }
             catch (Exception err)
@@ -164,9 +194,9 @@ namespace vmaf_gui
             }
         }
 
-        void vmaf()
+        void vmaf(string resolution,string model,bool psnr,bool ssim)
         {
-            string args = "yuv420p "+ cmbResolution.Text +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ cmbModel.Text +" --log log.xml";
+            string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
             if (chkPSNR.Checked)
             {
                 args += " --psnr";
@@ -176,12 +206,13 @@ namespace vmaf_gui
                 args += " --ssim";
             }
 
-            lblProgress.Text = "Performing VMAF...";
-            System.Windows.Forms.Application.DoEvents();
+            //lblProgress.Text = "Performing VMAF...";
+            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
+
             ChildProcess("vmaf.exe",args ,false);
 
-            System.Windows.Forms.Application.DoEvents();
-            ChildProcess("notepad", "log.xml",true);
+            
+            
             
         }
 
