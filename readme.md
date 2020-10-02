@@ -6,6 +6,3 @@ VMAF is a tool developed by Netflix to grade the quality of a compressed video f
 
 ## Build
 Using visual studio Just click the .sln file then compile for your system. In the folder with your binaries, you'll have to provide your own copy of ffmpeg, vmaf, and the model files for ffmpeg in a subfolder named model. I couldn't figure out how to get VMAF to output the score to stdout so currently the score is only available through the generated log.txt when the program is run.
-
-## Known bugs
-The gui becomes unresponsive while it's running the child processes for ffmpeg and vmaf; this is because the child processes are executed on the main thread. I'm working on multithreading the program to remedy this problem.
