@@ -25,7 +25,7 @@ namespace vmaf_gui
         {
 
             
-            // Spawn a child process, record stdout and return it
+            // Spawn a child process. We don't need output from stdout so we don't capture it
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
@@ -38,24 +38,13 @@ namespace vmaf_gui
 
             
             // p.standardoutput is an input stream
-            //string output = p.StandardOutput.ReadToEnd();
+            
             string output = "";
-
-
-            /*
-            while ((line = p.StandardOutput.ReadLine()) != null)
-            {
-                output += line;
-                Console.WriteLine(line);
-            }*/
-            //rtbConsole.Text += output;
-
 
             Console.WriteLine(program_name);
             Console.WriteLine(args);
             
             p.WaitForExit();
-            //prgProgress.PerformStep();
             return output;
         }
 
@@ -83,8 +72,10 @@ namespace vmaf_gui
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             cmbResolution.SelectedIndex = 1;
             
+            // Get list of model files and add them to the cmbModel form control
             string[] models = Directory.GetFiles(".\\model");
             foreach (string model in models)
             {
@@ -100,6 +91,7 @@ namespace vmaf_gui
             }
             catch
             {
+                // Show message if no suitable model is found
                 MessageBox.Show("There are no suitable models in the ./model folder");
             }
         }
@@ -125,48 +117,52 @@ namespace vmaf_gui
                 try
                 {
                     button1.Enabled = false;
+
+                    // Create directory target for ffmpeg
                     if (!Directory.Exists("temp"))
                     {
                         Directory.CreateDirectory("temp");
                     }
 
+                    // Get variables we need before we make a new thread
                     string resolution = cmbResolution.Text;
                     string model = cmbModel.Text;
                     bool psnr = chkPSNR.Checked;
                     bool ssim = chkSSIM.Checked;
 
+                    // Define what functions the thread does
                     ThreadStart tStart = new ThreadStart(
                         () => {
 
-                            //lblProgress.Text = "Decompressing Source...";
+                            // Decompress source video file
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
                             decompressVideo(sourcePath, "./temp/source.yuv");
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            //lblProgress.Text = "Decompressing Compressed...";
+                            // Decompress compressed video file
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Compressed..."; }));
-
                             decompressVideo(compressedPath, "./temp/compressed.yuv");
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-
+                            // Start vmaf
                             vmaf(resolution, model, psnr, ssim);
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
+                            // Show results in notepad
                             ChildProcess("notepad", "log.xml", true);
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
+                            // Clean up form controls and delete .yuv files to save disk space
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
                             File.Delete("./temp/compressed.yuv");
                             File.Delete("./temp/source.yuv");
-
                             button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
 
                         }
 
                         );
 
-
+                    // Define the thread and start it
                     Thread t = new Thread(tStart);
                     t.Start();
                 }
@@ -185,7 +181,7 @@ namespace vmaf_gui
         {
             try
             {
-                
+                // Use ffmpeg to decompress the video into .yuv file
                 ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 "+ output,false);
             }
             catch (Exception err)
@@ -196,6 +192,7 @@ namespace vmaf_gui
 
         void vmaf(string resolution,string model,bool psnr,bool ssim)
         {
+            // Build arguments list for vmaf
             string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
             if (chkPSNR.Checked)
             {
