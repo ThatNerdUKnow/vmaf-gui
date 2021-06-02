@@ -40,6 +40,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      
+    - name: Move into source directory
+      run: cd vmaf-gui
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
