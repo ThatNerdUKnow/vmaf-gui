@@ -149,8 +149,10 @@ namespace vmaf_gui
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
                             // Show results in notepad
-                            ChildProcess("notepad", "log.xml", true);
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Done."; }));
+                            ChildProcess("notepad", "log.xml", true);
+
 
                             // Clean up form controls and delete .yuv files to save disk space
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
