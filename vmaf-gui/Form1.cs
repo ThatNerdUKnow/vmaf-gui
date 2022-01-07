@@ -80,7 +80,7 @@ namespace vmaf_gui
             foreach (string model in models)
             {
                 string safeName = model.Substring(8, model.Length - 8);
-                if (!safeName.Contains(".model")&& safeName.Contains(".pkl"))
+                if (!safeName.Contains(".model")&& safeName.Contains(".json"))
                 {
                     cmbModel.Items.Add(safeName);
                 }
@@ -195,7 +195,9 @@ namespace vmaf_gui
         void vmaf(string resolution,string model,bool psnr,bool ssim)
         {
             // Build arguments list for vmaf
-            string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
+            //string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
+            string args = $"-p 420 --width 1920 --height 1080 --reference ./temp/source.yuv --distorted ./temp/source.yuv -o log.xml -b 8";
+            /*
             if (chkPSNR.Checked)
             {
                 args += " --psnr";
@@ -203,7 +205,7 @@ namespace vmaf_gui
             if (chkSSIM.Checked)
             {
                 args += " --ssim";
-            }
+            }*/
 
             //lblProgress.Text = "Performing VMAF...";
             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
