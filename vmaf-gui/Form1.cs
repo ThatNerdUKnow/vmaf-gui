@@ -73,7 +73,7 @@ namespace vmaf_gui
         private void Form1_Load(object sender, EventArgs e)
         {
             
-            cmbResolution.SelectedIndex = 1;
+            //cmbResolution.SelectedIndex = 1;
             
             // Get list of model files and add them to the cmbModel form control
             string[] models = Directory.GetFiles(".\\model");
@@ -82,12 +82,12 @@ namespace vmaf_gui
                 string safeName = model.Substring(8, model.Length - 8);
                 if (!safeName.Contains(".model")&& safeName.Contains(".json"))
                 {
-                    cmbModel.Items.Add(safeName);
+                   // cmbModel.Items.Add(safeName);
                 }
             }
             try
             {
-                cmbModel.SelectedIndex = 0;
+                //cmbModel.SelectedIndex = 0;
             }
             catch
             {
@@ -125,10 +125,14 @@ namespace vmaf_gui
                     }
 
                     // Get variables we need before we make a new thread
-                    string resolution = cmbResolution.Text;
-                    string model = cmbModel.Text;
-                    bool psnr = chkPSNR.Checked;
-                    bool ssim = chkSSIM.Checked;
+                    /* string resolution = cmbResolution.Text;
+                     string model = cmbModel.Text;
+                     bool psnr = chkPSNR.Checked;
+                     bool ssim = chkSSIM.Checked;*/
+                    string resolution = "";
+                    string model = "";
+                    bool psnr = false;
+                    bool ssim = false;
 
                     // Define what functions the thread does
                     ThreadStart tStart = new ThreadStart(
@@ -136,12 +140,12 @@ namespace vmaf_gui
 
                             // Decompress source video file
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
-                            decompressVideo(sourcePath, "./temp/source.yuv");
+                            decompressVideo(sourcePath, "./temp/source.y4m");
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
                             // Decompress compressed video file
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Compressed..."; }));
-                            decompressVideo(compressedPath, "./temp/compressed.yuv");
+                            decompressVideo(compressedPath, "./temp/compressed.y4m");
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
                             // Start vmaf
@@ -196,7 +200,9 @@ namespace vmaf_gui
         {
             // Build arguments list for vmaf
             //string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
-            string args = $"-p 420 --width 1920 --height 1080 --reference ./temp/source.yuv --distorted ./temp/source.yuv -o log.xml -b 8";
+            Array res = resolution.Split(' ');
+      
+            string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/source.y4m -o log.xml";
             /*
             if (chkPSNR.Checked)
             {
