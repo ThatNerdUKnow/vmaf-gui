@@ -202,7 +202,7 @@ namespace vmaf_gui
             //string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
             Array res = resolution.Split(' ');
       
-            string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/source.y4m -o log.xml";
+            string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/compressed.y4m -o log.xml";
             /*
             if (chkPSNR.Checked)
             {
