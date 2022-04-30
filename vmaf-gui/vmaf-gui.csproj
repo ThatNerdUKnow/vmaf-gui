@@ -86,7 +86,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadXML.cs" />
     <Compile Include="results.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -18,33 +18,21 @@ namespace vmaf_gui
         {
             var doc = XDocument.Load(path);
 
-
             var frames = from frame in doc.Root.Descendants("frame")
                          select frame;
 
-            
-
+            double total = 0;
             foreach (var frame in frames)
             {
                 double frameNum = double.Parse(frame.Attribute("frameNum").Value);
                 double vmafScore = double.Parse(frame.Attribute("vmaf").Value);
+                total += vmafScore;
                 this.resultsChart.Series["VMAF"].Points.AddXY(frameNum, vmafScore);
             }
 
-            //TODO Bind vmaf data to results form control
-            
-            
-            
-        }
+            double average = Math.Round(total / frames.ToArray().Length,2);
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void results_Load(object sender, EventArgs e)
-        {
-
+            label1.Text = "VMAF: " + average;
         }
     }
 }
