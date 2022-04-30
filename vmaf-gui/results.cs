@@ -22,23 +22,29 @@ namespace vmaf_gui
             var frames = from frame in doc.Root.Descendants("frame")
                          select frame;
 
-            var pooled_metrics = from metric in doc.Root.Descendants("pooled_metrics")
-                                 where metric.Attribute("name").Value == "vmaf"
-                                 select metric;
+            
 
-           
-
-            DataPointCollection data = null;
-            foreach(var frame in frames)
+            foreach (var frame in frames)
             {
                 double frameNum = double.Parse(frame.Attribute("frameNum").Value);
                 double vmafScore = double.Parse(frame.Attribute("vmaf").Value);
-                data.AddXY(frameNum, vmafScore);
-                Console.WriteLine(frame);
+                this.resultsChart.Series["VMAF"].Points.AddXY(frameNum, vmafScore);
             }
-            
+
             //TODO Bind vmaf data to results form control
             
+            
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void results_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

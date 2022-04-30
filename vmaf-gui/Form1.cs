@@ -147,23 +147,20 @@ namespace vmaf_gui
                             vmaf(resolution, model, psnr, ssim);
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Show results in notepad
+                            // Done
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Done."; }));
-                            ChildProcess("notepad", "log.xml", true);
-
-                            results resultsForm = new results();
-                            resultsForm.showResults("./log.xml");
-                            resultsForm.ShowDialog();
                             
-
                             // Clean up form controls and delete .yuv files to save disk space
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
                             File.Delete("./temp/compressed.yuv");
                             File.Delete("./temp/source.yuv");
                             button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
 
-                            
+                            // Show Results
+                            results resultsForm = new results();
+                            resultsForm.showResults("./log.xml");
+                            resultsForm.ShowDialog();
 
                         }
 
@@ -214,7 +211,6 @@ namespace vmaf_gui
                 args += " --ssim";
             }*/
 
-            //lblProgress.Text = "Performing VMAF...";
             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
 
             ChildProcess("vmaf.exe", args, false);
