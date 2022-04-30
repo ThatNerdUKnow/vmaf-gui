@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Xml;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace vmaf_gui
 {
@@ -20,11 +14,11 @@ namespace vmaf_gui
             InitializeComponent();
         }
 
-        
+
         string ChildProcess(string program_name, string args, bool show)
         {
 
-            
+
             // Spawn a child process. We don't need output from stdout so we don't capture it
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
@@ -33,17 +27,17 @@ namespace vmaf_gui
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
 
-           
+
             p.Start();
 
-            
+
             // p.standardoutput is an input stream
-            
+
             string output = "";
 
             Console.WriteLine(program_name);
             Console.WriteLine(args);
-            
+
             p.WaitForExit();
             return output;
         }
@@ -72,17 +66,17 @@ namespace vmaf_gui
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
             //cmbResolution.SelectedIndex = 1;
-            
+
             // Get list of model files and add them to the cmbModel form control
             string[] models = Directory.GetFiles(".\\model");
             foreach (string model in models)
             {
                 string safeName = model.Substring(8, model.Length - 8);
-                if (!safeName.Contains(".model")&& safeName.Contains(".json"))
+                if (!safeName.Contains(".model") && safeName.Contains(".json"))
                 {
-                   // cmbModel.Items.Add(safeName);
+                    // cmbModel.Items.Add(safeName);
                 }
             }
             try
@@ -99,17 +93,17 @@ namespace vmaf_gui
         private void button1_Click(object sender, EventArgs e)
         {
             prgProgress.Value = 0;
-            
+
             try
             {
-                
+
                 originalFileDialog.OpenFile();
                 compressedFileDialog.OpenFile();
 
                 originalFileDialog.Dispose();
                 compressedFileDialog.Dispose();
 
-                string sourcePath ="\""+ originalFileDialog.FileName + "\"";
+                string sourcePath = "\"" + originalFileDialog.FileName + "\"";
                 string compressedPath = "\"" + compressedFileDialog.FileName + "\"";
 
                 Console.WriteLine(sourcePath);
@@ -136,7 +130,8 @@ namespace vmaf_gui
 
                     // Define what functions the thread does
                     ThreadStart tStart = new ThreadStart(
-                        () => {
+                        () =>
+                        {
 
                             // Decompress source video file
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
@@ -152,17 +147,20 @@ namespace vmaf_gui
                             vmaf(resolution, model, psnr, ssim);
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Show results in notepad
+                            // Done
                             prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Done."; }));
-                            ChildProcess("notepad", "log.xml", true);
-
-
+                            
                             // Clean up form controls and delete .yuv files to save disk space
                             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
                             File.Delete("./temp/compressed.yuv");
                             File.Delete("./temp/source.yuv");
                             button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
+
+                            // Show Results
+                            results resultsForm = new results();
+                            resultsForm.showResults("./log.xml");
+                            resultsForm.ShowDialog();
 
                         }
 
@@ -183,12 +181,12 @@ namespace vmaf_gui
             }
         }
 
-        void decompressVideo(string path,string output)
+        void decompressVideo(string path, string output)
         {
             try
             {
                 // Use ffmpeg to decompress the video into .yuv file
-                ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 "+ output,false);
+                ChildProcess("ffmpeg.exe", "-y -i " + path + " -pix_fmt yuv420p -vsync 0 " + output, false);
             }
             catch (Exception err)
             {
@@ -196,12 +194,12 @@ namespace vmaf_gui
             }
         }
 
-        void vmaf(string resolution,string model,bool psnr,bool ssim)
+        void vmaf(string resolution, string model, bool psnr, bool ssim)
         {
             // Build arguments list for vmaf
             //string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
             Array res = resolution.Split(' ');
-      
+
             string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/compressed.y4m -o log.xml";
             /*
             if (chkPSNR.Checked)
@@ -213,18 +211,17 @@ namespace vmaf_gui
                 args += " --ssim";
             }*/
 
-            //lblProgress.Text = "Performing VMAF...";
             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
 
-            ChildProcess("vmaf.exe",args ,false);
+            ChildProcess("vmaf.exe", args, false);
 
-            
-            
-            
+
+
+
         }
 
-        
+
     }
 
-   
+
 }
