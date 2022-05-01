@@ -40,6 +40,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.prgProgress = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
+            this.cmbModel = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.vmafLogo)).BeginInit();
             this.grpFiles.SuspendLayout();
             this.SuspendLayout();
@@ -117,7 +119,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 267);
+            this.button1.Location = new System.Drawing.Point(12, 301);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(272, 23);
             this.button1.TabIndex = 6;
@@ -127,7 +129,7 @@
             // 
             // prgProgress
             // 
-            this.prgProgress.Location = new System.Drawing.Point(12, 297);
+            this.prgProgress.Location = new System.Drawing.Point(12, 331);
             this.prgProgress.Maximum = 4;
             this.prgProgress.Name = "prgProgress";
             this.prgProgress.Size = new System.Drawing.Size(272, 23);
@@ -142,12 +144,31 @@
             this.lblProgress.Size = new System.Drawing.Size(0, 13);
             this.lblProgress.TabIndex = 12;
             // 
+            // cmbModel
+            // 
+            this.cmbModel.FormattingEnabled = true;
+            this.cmbModel.Location = new System.Drawing.Point(95, 267);
+            this.cmbModel.Name = "cmbModel";
+            this.cmbModel.Size = new System.Drawing.Size(189, 21);
+            this.cmbModel.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 270);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "VMAF Model:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(305, 420);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmbModel);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.prgProgress);
             this.Controls.Add(this.button1);
@@ -180,6 +201,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ProgressBar prgProgress;
         private System.Windows.Forms.Label lblProgress;
+        private System.Windows.Forms.ComboBox cmbModel;
+        private System.Windows.Forms.Label label1;
     }
 }
 
