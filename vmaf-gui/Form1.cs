@@ -203,7 +203,9 @@ namespace vmaf_gui
             //string args = "yuv420p "+ resolution +" ./temp/source.yuv ./temp/compressed.yuv .\\model\\"+ model +" --log log.xml";
             Array res = resolution.Split(' ');
 
-            string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/compressed.y4m -o log.xml";
+            string args = $"--threads 4 --reference ./temp/source.y4m --distorted ./temp/compressed.y4m -o log.xml ";
+
+            args += "--model path=./model/" + model;
             /*
             if (chkPSNR.Checked)
             {
@@ -215,9 +217,12 @@ namespace vmaf_gui
             }*/
 
             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
-
-            ChildProcess("vmaf.exe", args, false);
-
+            try{
+                ChildProcess("vmaf.exe", args, false);
+            }catch(Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
 
 
 
