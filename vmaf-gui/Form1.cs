@@ -76,12 +76,13 @@ namespace vmaf_gui
                 string safeName = model.Substring(8, model.Length - 8);
                 if (!safeName.Contains(".model") && safeName.Contains(".json"))
                 {
-                    // cmbModel.Items.Add(safeName);
+                    Console.WriteLine(safeName);
+                    cmbModel.Items.Add(safeName);
                 }
             }
             try
             {
-                //cmbModel.SelectedIndex = 0;
+                cmbModel.SelectedIndex = 0;
             }
             catch
             {
@@ -124,9 +125,11 @@ namespace vmaf_gui
                      bool psnr = chkPSNR.Checked;
                      bool ssim = chkSSIM.Checked;*/
                     string resolution = "";
-                    string model = "";
+                    string model = cmbModel.Text;
                     bool psnr = false;
                     bool ssim = false;
+
+                    
 
                     // Define what functions the thread does
                     ThreadStart tStart = new ThreadStart(
