@@ -27,6 +27,8 @@ namespace vmaf_gui
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
 
+            p.StartInfo.RedirectStandardError = true;
+
 
             p.Start();
 
@@ -39,6 +41,16 @@ namespace vmaf_gui
             Console.WriteLine(args);
 
             p.WaitForExit();
+
+            int exitCode = p.ExitCode;
+
+            if(exitCode != 0)
+            {
+                throw new Exception(p.StandardError.ReadToEnd());
+            }
+
+            
+
             return output;
         }
 
@@ -135,35 +147,48 @@ namespace vmaf_gui
                     ThreadStart tStart = new ThreadStart(
                         () =>
                         {
+                            try
+                            {
+                                // Decompress source video file
+                                lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
+                                decompressVideo(sourcePath, "./temp/source.y4m");
+                                prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Decompress source video file
-                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Source..."; }));
-                            decompressVideo(sourcePath, "./temp/source.y4m");
-                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+                                // Decompress compressed video file
+                                lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Compressed..."; }));
+                                decompressVideo(compressedPath, "./temp/compressed.y4m");
+                                prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Decompress compressed video file
-                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Decompressing Compressed..."; }));
-                            decompressVideo(compressedPath, "./temp/compressed.y4m");
-                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Start vmaf
-                            vmaf(resolution, model, psnr, ssim);
-                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+                                // Start vmaf
+                                vmaf(resolution, model, psnr, ssim);
+                                prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
 
-                            // Done
-                            prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
-                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Done."; }));
-                            
-                            // Clean up form controls and delete .yuv files to save disk space
-                            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
-                            File.Delete("./temp/compressed.yuv");
-                            File.Delete("./temp/source.yuv");
-                            button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
 
-                            // Show Results
-                            results resultsForm = new results();
-                            resultsForm.showResults("./log.xml");
-                            resultsForm.ShowDialog();
+                                // Done
+                                prgProgress.Invoke(new Action(delegate () { prgProgress.PerformStep(); }));
+                                lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Done."; }));
+
+                                // Clean up form controls and delete .yuv files to save disk space
+                                lblProgress.Invoke(new Action(delegate () { lblProgress.Text = ""; }));
+                                File.Delete("./temp/compressed.yuv");
+                                File.Delete("./temp/source.yuv");
+                                button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
+
+                                // Show Results
+                                results resultsForm = new results();
+                                resultsForm.showResults("./log.xml");
+                                resultsForm.ShowDialog();
+                            }catch
+                            {
+                                prgProgress.Invoke(new Action(delegate () {
+                                    prgProgress.Value = 0;
+                                }));
+                                lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "There was a problem running VMAF"; }));
+                                button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
+
+
+                            }
 
                         }
 
@@ -175,6 +200,7 @@ namespace vmaf_gui
                 }
                 catch (Exception err)
                 {
+             
                     MessageBox.Show(err.Message);
                 }
             }
@@ -221,7 +247,8 @@ namespace vmaf_gui
                 ChildProcess("vmaf.exe", args, false);
             }catch(Exception err)
             {
-                MessageBox.Show(err.Message);
+                MessageBox.Show(err.Message,"There was a problem with VMAF");
+                throw new Exception();
             }
 
 
