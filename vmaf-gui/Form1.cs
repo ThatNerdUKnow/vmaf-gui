@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -14,6 +15,17 @@ namespace vmaf_gui
             InitializeComponent();
         }
 
+        private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            processHandles.ForEach((handle) =>
+            {
+                handle.Close();
+            });
+            currentThread.Abort();
+        }
+
+        private List<Process> processHandles = new List<Process>();
+        private Thread currentThread;
 
         string ChildProcess(string program_name, string args, bool show)
         {
@@ -39,17 +51,17 @@ namespace vmaf_gui
 
             Console.WriteLine(program_name);
             Console.WriteLine(args);
-
+            processHandles.Add(p);
             p.WaitForExit();
 
             int exitCode = p.ExitCode;
 
-            if(exitCode != 0)
+            if (exitCode != 0)
             {
                 throw new Exception(p.StandardError.ReadToEnd());
             }
 
-            
+
 
             return output;
         }
@@ -141,7 +153,7 @@ namespace vmaf_gui
                     bool psnr = false;
                     bool ssim = false;
 
-                    
+
 
                     // Define what functions the thread does
                     ThreadStart tStart = new ThreadStart(
@@ -179,14 +191,16 @@ namespace vmaf_gui
                                 results resultsForm = new results();
                                 resultsForm.showResults("./log.xml");
                                 resultsForm.ShowDialog();
-                            }catch
+                            }
+                            catch (Exception err)
                             {
-                                prgProgress.Invoke(new Action(delegate () {
+                                prgProgress.Invoke(new Action(delegate ()
+                                {
                                     prgProgress.Value = 0;
                                 }));
                                 lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "There was a problem running VMAF"; }));
                                 button1.Invoke(new Action(delegate () { button1.Enabled = true; }));
-
+                                MessageBox.Show(err.ToString(),"VMAF-GUI",MessageBoxButtons.OK,MessageBoxIcon.Error);
 
                             }
 
@@ -195,12 +209,12 @@ namespace vmaf_gui
                         );
 
                     // Define the thread and start it
-                    Thread t = new Thread(tStart);
-                    t.Start();
+                    currentThread = new Thread(tStart);
+                    currentThread.Start();
                 }
                 catch (Exception err)
                 {
-             
+
                     MessageBox.Show(err.Message);
                 }
             }
@@ -243,11 +257,13 @@ namespace vmaf_gui
             }*/
 
             lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
-            try{
-                ChildProcess("vmaf.exe", args, false);
-            }catch(Exception err)
+            try
             {
-                MessageBox.Show(err.Message,"There was a problem with VMAF");
+                ChildProcess("vmaf.exe", args, false);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "There was a problem with VMAF");
                 throw new Exception();
             }
 
