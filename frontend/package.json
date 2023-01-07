@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
+    "tauri": "tauri",
     "start": "next start",
     "lint": "next lint"
   },
