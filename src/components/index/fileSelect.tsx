@@ -8,10 +8,7 @@ function FileSelect(props: FileSelectProps) {
   return (
     <Form.Group>
       <Form.Label htmlFor={props.type}>{props.type}</Form.Label>
-      <Form.Control
-        id={props.type}
-        type="file"
-      />
+      <Form.Control id={props.type} type="file" />
     </Form.Group>
   );
 }

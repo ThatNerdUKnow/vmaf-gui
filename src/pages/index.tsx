@@ -6,11 +6,10 @@ import { Container, Row,Col } from "react-bootstrap";
 
 function App() {
   return (
-    <Container className="m-4">
+    <Container className="m-4 mx-auto">
       <Row>
         <Col>
           <Header />
-          <div className="divider" />
           <Form />
         </Col>
       </Row>
