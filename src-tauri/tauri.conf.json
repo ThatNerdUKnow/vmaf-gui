@@ -60,10 +60,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 900,
         "resizable": true,
         "title": "Vmaf-Gui",
-        "width": 800
+        "width": 1000
       }
     ]
   }
