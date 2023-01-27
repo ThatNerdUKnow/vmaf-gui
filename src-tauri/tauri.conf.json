@@ -1,17 +1,22 @@
 {
   "build": {
-    "beforeBuildCommand": "npm run build &amp;&amp; npm run export",
-    "beforeDevCommand": "cd ./frontend && npm run dev",
-    "devPath": "http://localhost:3000",
-    "distDir": "../frontend/out"
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist",
+    "withGlobalTauri": false
   },
   "package": {
-    "productName": "vmaf-gui",
-    "version": "0.1.0"
+    "productName": "Vmaf-Gui",
+    "version": "0.0.0"
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      }
     },
     "bundle": {
       "active": true,
@@ -57,7 +62,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Vmaf Gui",
+        "title": "Vmaf-Gui",
         "width": 800
       }
     ]
