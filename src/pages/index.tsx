@@ -4,9 +4,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 function App() {
 
   return (
-    <>
-    Hello!
-    </>
+    <button className="btn">Button</button>
   );
 }
 
