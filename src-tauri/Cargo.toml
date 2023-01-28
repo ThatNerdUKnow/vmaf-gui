@@ -1,8 +1,8 @@
 [package]
-name = "Vmaf-Gui"
+name = "vmaf-gui"
 version = "0.0.0"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["Brandon Piña"]
 license = ""
 repository = ""
 edition = "2021"
@@ -14,10 +14,11 @@ rust-version = "1.57"
 tauri-build = { version = "1.2", features = [] }
 
 [dependencies]
-libvmaf-rs = "0.3.2"
+libvmaf-rs = { version = "0.3.3", features = ["float","ffmpeg-build"] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["shell-open"] }
+tauri = { version = "1.2", features = ["dialog-open", "path-all", "shell-open"] }
+error-stack = "0.2.4"
 
 [features]
 # by default Tauri runs in production mode

@@ -13,6 +13,17 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": false,
+        "ask": false,
+        "confirm": false,
+        "message": false,
+        "open": true,
+        "save": false
+      },
       "shell": {
         "all": false,
         "open": true
@@ -63,7 +74,7 @@
         "height": 900,
         "resizable": true,
         "title": "Vmaf-Gui",
-        "width": 1000
+        "width": 800
       }
     ]
   }
