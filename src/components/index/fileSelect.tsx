@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
 import Form from "react-bootstrap/Form";
-import { basename, videoDir as GetVideoDir } from "@tauri-apps/api/path";
+import dynamic from "next/dynamic";
+//import { basename, videoDir as GetVideoDir } from "@tauri-apps/api/path";
 import { Button, InputGroup } from "react-bootstrap";
 
 export type FileSelectProps = {
@@ -15,6 +16,7 @@ function FileSelect(props: FileSelectProps) {
 
   useEffect(() => {
     async function calculateFileName() {
+      const basename = await (await import("@tauri-apps/api/path")).basename;
       setFile(await basename(fullPath));
     }
     if (fullPath) {
@@ -25,6 +27,7 @@ function FileSelect(props: FileSelectProps) {
   async function handleClick(event) {
     event.preventDefault();
 
+    const GetVideoDir = await (await import("@tauri-apps/api/path")).videoDir;
     const videoDir = await GetVideoDir();
 
     const selected = await open({
