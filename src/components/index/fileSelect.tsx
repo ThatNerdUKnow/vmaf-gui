@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
-import {
-  videoDir as GetVideoDir,
-  extname,
-  basename,
-} from "@tauri-apps/api/path";
 import Form from "react-bootstrap/Form";
+import { basename, videoDir as GetVideoDir } from "@tauri-apps/api/path";
 import { Button, InputGroup } from "react-bootstrap";
 
 export type FileSelectProps = {
@@ -13,7 +9,7 @@ export type FileSelectProps = {
 };
 
 function FileSelect(props: FileSelectProps) {
-  const [file,setFile] = useState("")
+  const [file, setFile] = useState("");
   const [fullPath, setFullPath] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
 
