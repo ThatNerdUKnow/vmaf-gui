@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
-
+import {videoDir as GetVideoDir} from "@tauri-apps/api/path"
 import Form from "react-bootstrap/Form";
 import { Button, InputGroup, Row } from "react-bootstrap";
 
@@ -14,9 +14,12 @@ function FileSelect(props: FileSelectProps) {
 
   async function handleClick(event) {
     event.preventDefault();
-    console.log("Clicked");
+
+    const videoDir = await GetVideoDir();
+
     const selected = await open({
       multiple: false,
+      defaultPath: videoDir,
       title: `Select ${props.type} video`
     });
 
