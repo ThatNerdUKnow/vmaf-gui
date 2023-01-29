@@ -2,6 +2,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import FileSelect from "./fileSelect";
+import ResolutionSelect from "./resolutionSelect";
 
 function VmafConfigForm() {
   return (
@@ -16,16 +17,7 @@ function VmafConfigForm() {
         </Col>
       </Row>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Resolution</Form.Label>
-        <Form.Select>
-          <option>3840x2160</option>
-          <option>2560x1440</option>
-          <option>1920x1080</option>
-          <option>1280x720</option>
-          <option>custom</option>
-        </Form.Select>
-      </Form.Group>
+      <ResolutionSelect/>
 
       <Row>
         <Col>
