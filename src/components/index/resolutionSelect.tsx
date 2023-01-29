@@ -1,5 +1,6 @@
 import { Form } from "react-bootstrap";
 import ResolutionOption, { ResolutionOptionProps } from "./resolutionOption";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 
 const resolutions: Array<ResolutionOptionProps> = [
   { width: 3840, height: 2160 },
@@ -9,14 +10,26 @@ const resolutions: Array<ResolutionOptionProps> = [
 ];
 
 function ResolutionSelect() {
+  const [isCustomSelected, setIsCustomSelected] = useState(false);
+  const [value, setValue] = useState(JSON.stringify(resolutions[2]));
+
+  function handleChange(event: ChangeEvent<HTMLSelectElement>) {
+    switch (event.target.value) {
+      case "custom":
+        setIsCustomSelected(true);
+        break;
+      default:
+        setValue(event.target.value);
+    }
+  }
+
   return (
     <Form.Group className="mb-3">
       <Form.Label>Resolution</Form.Label>
-      <Form.Select>
-        {resolutions.map((r) => (
-          <ResolutionOption width={r.width} height={r.height} />
+      <Form.Select onChange={handleChange} value={value}>
+        {resolutions.map((r, i) => (
+          <ResolutionOption key={i} width={r.width} height={r.height} />
         ))}
-        <option>custom</option>
       </Form.Select>
     </Form.Group>
   );
