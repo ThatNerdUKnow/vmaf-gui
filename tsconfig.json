@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017"17",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "moduleResolution": "node",

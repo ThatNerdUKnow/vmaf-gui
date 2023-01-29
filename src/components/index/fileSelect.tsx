@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import dynamic from "next/dynamic";
 //import { basename, videoDir as GetVideoDir } from "@tauri-apps/api/path";
 import { Button, InputGroup } from "react-bootstrap";
+import { invoke } from "@tauri-apps/api";
 
 export type FileSelectProps = {
   type: string;
@@ -21,6 +22,20 @@ function FileSelect(props: FileSelectProps) {
     }
     if (fullPath) {
       calculateFileName();
+    }
+  }, [fullPath]);
+
+  useEffect(() => {
+    async function validateVideo() {
+      try {
+        await invoke("validate_video", { path: fullPath });
+        setIsInvalid(false);
+      } catch {
+        setIsInvalid(true);
+      }
+    }
+    if (fullPath !== "") {
+      validateVideo();
     }
   }, [fullPath]);
 
@@ -48,7 +63,12 @@ function FileSelect(props: FileSelectProps) {
         <InputGroup className="is-invalid" onClick={handleClick}>
           <Button>Select File:</Button>
           {/* This is a dummy form control that only displays the "file" part of the path */}
-          <Form.Control type="text" value={file} readOnly />
+          <Form.Control
+            className={isInvalid ? "is-invalid" : ""}
+            type="text"
+            value={file}
+            readOnly
+          />
         </InputGroup>
       </Form.Group>
       {/* This is a hidden form control which actually holds the value we want */}
