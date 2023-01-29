@@ -43,7 +43,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "vmaf-gui.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
