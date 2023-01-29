@@ -1,25 +1,26 @@
 {
-  "name": "Vmaf-Gui",
+  "name": "vmaf-gui",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev -p 1420",
-    "build": "next build && next export -o dist",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.2.0",
-    "bootstrap": "^5.2.3",
-    "next": "^13.0.0",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@tauri-apps/api": "^1.2.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.2",
-    "@types/node": "^18.7.11",
-    "@types/react": "^18.0.17",
+    "@types/node": "^18.7.10",
+    "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "typescript": "^4.7.4"
+    "@vitejs/plugin-react": "^3.0.0",
+    "typescript": "^4.6.4",
+    "vite": "^4.0.0",
+    "@tauri-apps/cli": "^1.2.2"
   }
 }

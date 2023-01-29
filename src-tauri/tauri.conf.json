@@ -3,11 +3,10 @@
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:1420",
-    "distDir": "../dist",
-    "withGlobalTauri": false
+    "distDir": "../dist"
   },
   "package": {
-    "productName": "Vmaf-Gui",
+    "productName": "vmaf-gui",
     "version": "0.0.0"
   },
   "tauri": {
@@ -73,7 +72,7 @@
         "fullscreen": false,
         "height": 900,
         "resizable": true,
-        "title": "Vmaf-Gui",
+        "title": "vmaf-gui",
         "width": 800
       }
     ]
