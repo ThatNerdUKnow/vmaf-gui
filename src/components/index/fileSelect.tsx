@@ -28,7 +28,7 @@ function FileSelect(props: FileSelectProps) {
       try {
         await invoke("validate_video", { path: fullPath });
         setIsInvalid(false);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
         setIsInvalid(true);
       }
@@ -39,7 +39,6 @@ function FileSelect(props: FileSelectProps) {
   }, [fullPath]);
 
   async function handleClick() {
-
     const videoDir = await GetVideoDir();
 
     const selected = await open({
@@ -66,6 +65,9 @@ function FileSelect(props: FileSelectProps) {
             value={file}
             readOnly
           />
+          {isInvalid ? (
+            <div className="invalid-feedback">This file is not a video!</div>
+          ) : null}
         </InputGroup>
       </Form.Group>
       {/* This is a hidden form control which actually holds the value we want */}
