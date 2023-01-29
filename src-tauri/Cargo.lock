@@ -1378,9 +1378,9 @@ dependencies = [
 
 [[package]]
 name = "libvmaf-rs"
-version = "0.3.3"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38c808cb402d58ceafb2ead9c339ea76e9a57e7adc9cb2d81c4831dc6734aff9"
+checksum = "a4d4793f7346c60c05ae176f0b4c6165120c3514d1bf87cc725c6b023a409f59"
 dependencies = [
  "errno",
  "error-stack",
