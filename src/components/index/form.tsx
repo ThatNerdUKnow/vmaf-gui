@@ -5,9 +5,9 @@ import FileSelect from "./fileSelect";
 import ResolutionSelect from "./resolutionSelect";
 import PixelFormatSelect from "./pixelFormatSelect";
 import { FormEvent, useState } from "react";
+import { ReferencePath, DistortedPath } from "../../atoms/videos";
 
 function VmafConfigForm() {
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
   }
@@ -16,11 +16,11 @@ function VmafConfigForm() {
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col>
-          <FileSelect type="Reference" />
+          <FileSelect path={ReferencePath} type="Reference" />
         </Col>
 
         <Col>
-          <FileSelect type="Distorted" />
+          <FileSelect path={DistortedPath} type="Distorted" />
         </Col>
       </Row>
 

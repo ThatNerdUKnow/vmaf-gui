@@ -4,14 +4,17 @@ import Form from "react-bootstrap/Form";
 import { basename, videoDir as GetVideoDir } from "@tauri-apps/api/path";
 import { Button, InputGroup } from "react-bootstrap";
 import { invoke } from "@tauri-apps/api";
+import { PrimitiveAtom, useAtom } from "jotai";
+import { VideoPath } from "../../atoms/videos";
 
 export type FileSelectProps = {
   type: string;
+  path: VideoPath
 };
 
 function FileSelect(props: FileSelectProps) {
   const [file, setFile] = useState("");
-  const [fullPath, setFullPath] = useState("");
+  const [fullPath, setFullPath] = useAtom(props.path.fullPath);
   const [isInvalid, setIsInvalid] = useState(false);
 
   useEffect(() => {
