@@ -1,5 +1,3 @@
-use std::{panic, thread};
-
 use libvmaf_rs::video::Video;
 
 #[tauri::command]

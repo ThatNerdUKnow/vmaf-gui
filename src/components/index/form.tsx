@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import FileSelect from "./fileSelect";
 import ResolutionSelect from "./resolutionSelect";
+import PixelFormatSelect from "./pixelFormatSelect";
 
 function VmafConfigForm() {
   return (
@@ -21,14 +22,7 @@ function VmafConfigForm() {
 
       <Row>
         <Col>
-          <Form.Group className="mb-3">
-            <Form.Label>Pixel Format</Form.Label>
-            <Form.Select>
-              <option>YUV444P</option>
-              <option>YUV422P</option>
-              <option>YUV420P</option>
-            </Form.Select>
-          </Form.Group>
+          <PixelFormatSelect/>
         </Col>
         <Col>
           <Form.Group className="mb-3">

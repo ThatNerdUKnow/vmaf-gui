@@ -3,20 +3,17 @@
     windows_subsystem = "windows"
 )]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
+mod format;
 mod video;
 
-use crate::video::validate_video;
+use crate::{format::get_supported_pixel_formats, video::validate_video};
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
-        .invoke_handler(tauri::generate_handler![validate_video])
+        .invoke_handler(tauri::generate_handler![
+            validate_video,
+            get_supported_pixel_formats
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
