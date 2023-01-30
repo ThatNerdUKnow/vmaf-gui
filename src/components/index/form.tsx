@@ -4,10 +4,16 @@ import { Col, Row } from "react-bootstrap";
 import FileSelect from "./fileSelect";
 import ResolutionSelect from "./resolutionSelect";
 import PixelFormatSelect from "./pixelFormatSelect";
+import { FormEvent, useState } from "react";
 
 function VmafConfigForm() {
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Row>
         <Col>
           <FileSelect type="Reference" />
@@ -18,11 +24,13 @@ function VmafConfigForm() {
         </Col>
       </Row>
 
-      <ResolutionSelect/>
+      <Row>
+        <ResolutionSelect />
+      </Row>
 
       <Row>
         <Col>
-          <PixelFormatSelect/>
+          <PixelFormatSelect />
         </Col>
         <Col>
           <Form.Group className="mb-3">
@@ -47,7 +55,7 @@ function VmafConfigForm() {
             <option>vmaf_float_v0.6.1neg</option>
             <option>vmaf_v0.6.1</option>
           </optgroup>
-          <optgroup label = "Model Collection">
+          <optgroup label="Model Collection">
             <option>vmaf_b_v0.6.3</option>
             <option>vmaf_float_b_v0.6.3</option>
           </optgroup>
