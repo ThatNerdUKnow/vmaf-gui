@@ -1,8 +1,9 @@
 import { Form } from "react-bootstrap";
-import ResolutionOption, { ResolutionOptionProps } from "./resolutionOption";
+import ResolutionOption from "./resolutionOption";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { Resolution } from "../../atoms/resolution";
 
-const resolutions: Array<ResolutionOptionProps> = [
+const resolutions: Array<Resolution> = [
   { width: 3840, height: 2160 },
   { width: 2560, height: 1440 },
   { width: 1920, height: 1080 },
