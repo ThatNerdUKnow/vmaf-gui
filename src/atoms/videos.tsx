@@ -24,7 +24,11 @@ export const DistortedPath: VideoPath = {
 function getBaseName(fullPathAtom: PrimitiveAtom<string>) {
   return async (get: Getter) => {
     let fullPath = get(fullPathAtom);
-    let fileName = await basename(fullPath);
-    return fileName;
+    if (fullPath) {
+      let fileName = await basename(fullPath);
+      return fileName;
+    } else {
+      return "";
+    }
   };
 }

@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import FileSelect from "./fileSelect";
 import ResolutionSelect from "./resolutionSelect";
 import PixelFormatSelect from "./pixelFormatSelect";
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { ReferencePath, DistortedPath } from "../../atoms/videos";
 
 function VmafConfigForm() {
@@ -16,11 +16,15 @@ function VmafConfigForm() {
     <Form onSubmit={handleSubmit}>
       <Row>
         <Col>
-          <FileSelect path={ReferencePath} type="Reference" />
+          <Suspense>
+            <FileSelect path={ReferencePath} type="Reference" />
+          </Suspense>
         </Col>
 
         <Col>
-          <FileSelect path={DistortedPath} type="Distorted" />
+          <Suspense>
+            <FileSelect path={DistortedPath} type="Distorted" />
+          </Suspense>
         </Col>
       </Row>
 

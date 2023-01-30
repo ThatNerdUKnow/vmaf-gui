@@ -9,22 +9,13 @@ import { VideoPath } from "../../atoms/videos";
 
 export type FileSelectProps = {
   type: string;
-  path: VideoPath
+  path: VideoPath;
 };
 
 function FileSelect(props: FileSelectProps) {
-  const [file, setFile] = useState("");
+  const [file] = useAtom(props.path.fileName);
   const [fullPath, setFullPath] = useAtom(props.path.fullPath);
   const [isInvalid, setIsInvalid] = useState(false);
-
-  useEffect(() => {
-    async function calculateFileName() {
-      setFile(await basename(fullPath));
-    }
-    if (fullPath) {
-      calculateFileName();
-    }
-  }, [fullPath]);
 
   useEffect(() => {
     async function validateVideo() {
