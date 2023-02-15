@@ -15,26 +15,16 @@ namespace vmaf_gui
             InitializeComponent();
         }
 
-        private void Form1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            processHandles.ForEach((handle) =>
-            {
-                handle.Close();
-            });
-            currentThread.Abort();
-        }
-
-        private List<Process> processHandles = new List<Process>();
         private Thread currentThread;
 
-        string ChildProcess(string program_name, string args, bool show)
+        void ChildProcess(string program_name, string args, bool show)
         {
 
 
             // Spawn a child process. We don't need output from stdout so we don't capture it
             var p = new Process();
             p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardOutput = false;
             p.StartInfo.CreateNoWindow = !show;
             p.StartInfo.FileName = program_name;
             p.StartInfo.Arguments = args;
@@ -44,26 +34,20 @@ namespace vmaf_gui
 
             p.Start();
 
-
-            // p.standardoutput is an input stream
-
-            string output = "";
-
             Console.WriteLine(program_name);
             Console.WriteLine(args);
-            processHandles.Add(p);
+
+            var standardError = p.StandardError.ReadToEnd();
+            p.StandardError.Close();
+
             p.WaitForExit();
 
             int exitCode = p.ExitCode;
 
             if (exitCode != 0)
             {
-                throw new Exception(p.StandardError.ReadToEnd());
+                throw new Exception(standardError);
             }
-
-
-
-            return output;
         }
 
         private void btnCompressed_Click(object sender, EventArgs e)
@@ -256,7 +240,7 @@ namespace vmaf_gui
                 args += " --ssim";
             }*/
 
-            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Performing VMAF..."; }));
+            lblProgress.Invoke(new Action(delegate () { lblProgress.Text = "Calculating VMAF..."; }));
             try
             {
                 ChildProcess("vmaf.exe", args, false);
