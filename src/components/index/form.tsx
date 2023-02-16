@@ -6,6 +6,7 @@ import ResolutionSelect from "./resolutionSelect";
 import PixelFormatSelect from "./pixelFormatSelect";
 import { ChangeEvent, FormEvent, Suspense, useState } from "react";
 import { ReferencePath, DistortedPath } from "../../atoms/videos";
+import ModelSelect from "./modelSelect";
 
 function VmafConfigForm() {
 
@@ -57,21 +58,7 @@ function VmafConfigForm() {
       </Row>
 
       <Form.Group className="mb-3">
-        <Form.Label>Model</Form.Label>
-        <Form.Select>
-          <optgroup label="Model">
-            <option>vmaf_4k_v0.6.1</option>
-            <option>vmaf_4k_v0.6.1neg</option>
-            <option>vmaf_float_4k_v0.6.1</option>
-            <option>vmaf_float_v0.6.1</option>
-            <option>vmaf_float_v0.6.1neg</option>
-            <option>vmaf_v0.6.1</option>
-          </optgroup>
-          <optgroup label="Model Collection">
-            <option>vmaf_b_v0.6.3</option>
-            <option>vmaf_float_b_v0.6.3</option>
-          </optgroup>
-        </Form.Select>
+        <ModelSelect/>
       </Form.Group>
 
       <Button type="submit">Get VMAF Scores</Button>
