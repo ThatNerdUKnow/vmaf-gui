@@ -7,12 +7,18 @@ import PixelFormatSelect from "./pixelFormatSelect";
 import { ChangeEvent, FormEvent, Suspense, useState } from "react";
 import { ReferencePath, DistortedPath } from "../../atoms/videos";
 import ModelSelect from "./modelSelect";
+import { Resolution } from "../../atoms/resolution";
+import { useAtom } from "jotai";
+import { PixFormat } from "../../atoms/pixFormat";
 
 function VmafConfigForm() {
+  const [bitDepth, setBitDepth] = useState(8);
+  const [resolution] = useAtom(Resolution);
+  const [pixFormat] = useAtom(PixFormat);
+  const [reference] = useAtom(ReferencePath.fullPath);
+  const [distorted] = useAtom(DistortedPath.fullPath);
 
-  const [bitDepth,setBitDepth] = useState(8);
-
-  function handleBitDepthChange(event: ChangeEvent<HTMLSelectElement>){
+  function handleBitDepthChange(event: ChangeEvent<HTMLSelectElement>) {
     let value = parseInt(event.target.value);
     setBitDepth(value);
   }
@@ -58,7 +64,7 @@ function VmafConfigForm() {
       </Row>
 
       <Form.Group className="mb-3">
-        <ModelSelect/>
+        <ModelSelect />
       </Form.Group>
 
       <Button type="submit">Get VMAF Scores</Button>
