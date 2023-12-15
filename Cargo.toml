@@ -1,0 +1,18 @@
+[package]
+name = "vmaf-gui"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+eframe = "0.24.1"
+egui_file = "0.13.0"
+indicatif = "0.17.7"
+libvmaf-rs = {version="0.5.1", features = ["ffmpeg"]}
+num_cpus = "1.16.0"
+
+[features]
+#default = ["vmaf-static","ffmpeg-static"]
+vmaf-static = ["libvmaf-rs/static"]
+ffmpeg-static = ["libvmaf-rs/ffmpeg-static"]
