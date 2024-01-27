@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Linq;
@@ -16,7 +18,11 @@ namespace vmaf_gui
 
         public void showResults(string path)
         {
-            var doc = XDocument.Load(path);
+            // Override culture of the current thread to possibly resolve locale issues with loading xml file
+			CultureInfo culture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture;
+
+			var doc = XDocument.Load(path);
 
             var frames = from frame in doc.Root.Descendants("frame")
                          select frame;
